@@ -115,3 +115,5 @@ Each client contains:
 ---
 
 Version 2.0 | StylistPRO
+
+☕ Optional support: https://tipply.pl/@ehumanreal
