@@ -10,7 +10,7 @@ Profesjonalny system zarządzania klientami dla salonów fryzjerskich z backende
 
 ### Kroki
 
-1. **Otwórz Command Prompt (CMD)** w folderze `salonfryzjerski`
+1. **Otwórz Command Prompt (CMD)** w folderze w którym masz pliki aplikacji np `salonfryzjerski`
 
 2. **Zainstaluj zależności:**
    ```
