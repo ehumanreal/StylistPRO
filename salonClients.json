@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1769364104987,
+    "name": "Jarek Borsuk",
+    "phone": "111222333",
+    "email": "",
+    "notes": "gryzie",
+    "services": [
+      {
+        "type": "strzyżenie",
+        "date": "2026-01-25",
+        "price": 50,
+        "notes": "zjadł firanke"
+      },
+      {
+        "type": "strzyżenie",
+        "date": "2026-01-25",
+        "price": 60,
+        "notes": ""
+      }
+    ],
+    "payments": [
+      {
+        "amount": 50,
+        "date": "2026-01-25",
+        "method": "gotówka"
+      }
+    ],
+    "createdAt": "2026-01-25T18:01:44.987Z"
+  }
+]

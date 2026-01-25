@@ -1,70 +1,121 @@
+// API URL
+const API_URL = 'http://localhost:3000/api';
+
 // Klasa do zarządzania bazą klientów
 class SalonDatabase {
     constructor() {
-        this.clients = this.loadFromLocalStorage();
+        this.clients = [];
+        this.loadClients();
     }
 
-    // Załaduj dane z localStorage
-    loadFromLocalStorage() {
-        const saved = localStorage.getItem('salonClients');
-        return saved ? JSON.parse(saved) : [];
+    // Załaduj dane z serwera
+    async loadClients() {
+        try {
+            const response = await fetch(`${API_URL}/clients`);
+            if (response.ok) {
+                this.clients = await response.json();
+                filterAndDisplay();
+                updateStats();
+                updateClientSelect();
+            }
+        } catch (error) {
+            console.error('Błąd przy wczytywaniu klientów:', error);
+            alert('Błąd: Nie mogę się połączyć z serwerem. Upewnij się, że serwer jest uruchomiony (npm start)');
+        }
     }
 
-    // Zapisz dane do localStorage
-    saveToLocalStorage() {
-        localStorage.setItem('salonClients', JSON.stringify(this.clients));
+    // Zapisz dane do serwera (automatycznie wywoływane po zmianach)
+    async saveToLocalStorage() {
+        // Ta metoda jest teraz nieużyteczna, ale zostawiamy dla kompatybilności
     }
 
     // Dodaj nowego klienta
-    addClient(clientData) {
-        const client = {
-            id: Date.now(),
-            name: clientData.name,
-            phone: clientData.phone,
-            email: clientData.email,
-            notes: clientData.notes || '',
-            services: [],
-            payments: [],
-            createdAt: new Date().toISOString()
-        };
-        
-        this.clients.push(client);
-        this.saveToLocalStorage();
-        return client;
+    async addClient(clientData) {
+        try {
+            const response = await fetch(`${API_URL}/clients`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(clientData)
+            });
+            if (response.ok) {
+                const client = await response.json();
+                this.clients.push(client);
+                filterAndDisplay();
+                updateStats();
+                updateClientSelect();
+                return client;
+            }
+        } catch (error) {
+            console.error('Błąd przy dodawaniu klienta:', error);
+            alert('Błąd: Nie mogę się połączyć z serwerem');
+        }
     }
 
     // Dodaj usługę do istniejącego klienta
-    addServiceToClient(clientId, serviceData) {
-        const client = this.clients.find(c => c.id === clientId);
-        if (client) {
-            client.services.push({
-                type: serviceData.serviceType,
-                date: serviceData.serviceDate,
-                price: serviceData.servicePrice,
-                notes: serviceData.notes
+    async addServiceToClient(clientId, serviceData) {
+        try {
+            const response = await fetch(`${API_URL}/clients/${clientId}/services`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: serviceData.serviceType,
+                    date: serviceData.serviceDate,
+                    price: serviceData.servicePrice,
+                    notes: serviceData.notes
+                })
             });
-            this.saveToLocalStorage();
-            return client;
+            if (response.ok) {
+                const client = await response.json();
+                const index = this.clients.findIndex(c => c.id === clientId);
+                if (index !== -1) {
+                    this.clients[index] = client;
+                }
+                filterAndDisplay();
+                updateStats();
+                return client;
+            }
+        } catch (error) {
+            console.error('Błąd przy dodawaniu usługi:', error);
+            alert('Błąd: Nie mogę się połączyć z serwerem');
         }
         return null;
     }
 
     // Usuń klienta
-    deleteClient(clientId) {
-        this.clients = this.clients.filter(c => c.id !== clientId);
-        this.saveToLocalStorage();
+    async deleteClient(clientId) {
+        try {
+            const response = await fetch(`${API_URL}/clients/${clientId}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                this.clients = this.clients.filter(c => c.id !== clientId);
+                filterAndDisplay();
+                updateStats();
+                updateClientSelect();
+            }
+        } catch (error) {
+            console.error('Błąd przy usuwaniu klienta:', error);
+            alert('Błąd: Nie mogę się połączyć z serwerem');
+        }
     }
 
     // Usuń usługę klienta
-    deleteService(clientId, serviceIndex) {
-        const client = this.clients.find(c => c.id === clientId);
-        if (client) {
-            client.services.splice(serviceIndex, 1);
-            if (client.services.length === 0) {
-                this.deleteClient(clientId);
-            } else {
-                this.saveToLocalStorage();
+    async deleteService(clientId, serviceIndex) {
+        try {
+            const response = await fetch(`${API_URL}/clients/${clientId}/services/${serviceIndex}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                const client = this.clients.find(c => c.id === clientId);
+                if (client) {
+                    client.services.splice(serviceIndex, 1);
+                    filterAndDisplay();
+                    updateStats();
+                }
             }
+        } catch (error) {
+            console.error('Błąd przy usuwaniu usługi:', error);
+            alert('Błąd: Nie mogę się połączyć z serwerem');
         }
     }
 
@@ -110,18 +161,31 @@ class SalonDatabase {
 
     // Dodaj płatność klienta
     addPaymentToClient(clientId, paymentData) {
-        const client = this.clients.find(c => c.id === clientId);
-        if (client) {
-            client.payments = client.payments || [];
-            client.payments.push({
-                amount: paymentData.amount,
-                date: paymentData.date,
-                method: paymentData.method
+        try {
+            fetch(`${API_URL}/clients/${clientId}/payments`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    amount: paymentData.amount,
+                    date: paymentData.date,
+                    method: paymentData.method
+                })
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(client => {
+                const index = this.clients.findIndex(c => c.id === clientId);
+                if (index !== -1) {
+                    this.clients[index] = client;
+                }
+                filterAndDisplay();
+                updateStats();
             });
-            this.saveToLocalStorage();
-            return client;
+        } catch (error) {
+            console.error('Błąd przy dodawaniu płatności:', error);
+            alert('Błąd: Nie mogę się połączyć z serwerem');
         }
-        return null;
     }
 
     // Eksportuj dane do JSON
@@ -145,8 +209,8 @@ class SalonDatabase {
     }
 }
 
-// Instancja bazy danych
-const db = new SalonDatabase();
+// Instancja bazy danych (inicjalizacja na koncu)
+let db;
 
 // Elementy DOM
 const newClientForm = document.getElementById('newClientForm');
@@ -377,18 +441,34 @@ function handleEditSubmit(e) {
     e.preventDefault();
     
     if (currentEditingClientId) {
-        const client = db.getClientById(currentEditingClientId);
-        if (client) {
-            client.name = editClientName.value.trim();
-            client.phone = editClientPhone.value.trim();
-            client.email = editClientEmail.value.trim();
-            client.notes = editClientNotes.value.trim();
-            db.saveToLocalStorage();
+        const clientData = {
+            name: editClientName.value.trim(),
+            phone: editClientPhone.value.trim(),
+            email: editClientEmail.value.trim(),
+            notes: editClientNotes.value.trim()
+        };
+        
+        fetch(`${API_URL}/clients/${currentEditingClientId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(clientData)
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).then(client => {
+            const index = db.clients.findIndex(c => c.id === currentEditingClientId);
+            if (index !== -1) {
+                db.clients[index] = client;
+            }
             alert('Dane klienta zaktualizowane!');
             closeEditModal();
             filterAndDisplay();
             updateClientSelect();
-        }
+        }).catch(error => {
+            console.error('Błąd:', error);
+            alert('Błąd przy aktualizacji klienta');
+        });
     }
 }
 
@@ -432,19 +512,34 @@ function handleEditServiceSubmit(e) {
     
     if (currentEditingServiceId) {
         const { clientId, serviceIndex } = currentEditingServiceId;
-        const client = db.getClientById(clientId);
+        const serviceData = {
+            type: editServiceType.value,
+            date: editServiceDate.value,
+            price: parseFloat(editServicePrice.value) || 0,
+            notes: editServiceNotes.value.trim()
+        };
         
-        if (client && client.services[serviceIndex]) {
-            client.services[serviceIndex].type = editServiceType.value;
-            client.services[serviceIndex].date = editServiceDate.value;
-            client.services[serviceIndex].price = parseFloat(editServicePrice.value) || 0;
-            client.services[serviceIndex].notes = editServiceNotes.value.trim();
-            
-            db.saveToLocalStorage();
+        fetch(`${API_URL}/clients/${clientId}/services/${serviceIndex}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(serviceData)
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).then(client => {
+            const index = db.clients.findIndex(c => c.id === clientId);
+            if (index !== -1) {
+                db.clients[index] = client;
+            }
             alert('Usługa zaktualizowana!');
             closeEditServiceModal();
             filterAndDisplay();
-        }
+            updateStats();
+        }).catch(error => {
+            console.error('Błąd:', error);
+            alert('Błąd przy aktualizacji usługi');
+        });
     }
 }
 
@@ -903,3 +998,8 @@ function handleImportJSON(e) {
     reader.readAsText(file);
     importFileInput.value = '';
 }
+
+// Inicjalizacja aplikacji
+document.addEventListener('DOMContentLoaded', () => {
+    db = new SalonDatabase();
+});

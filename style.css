@@ -615,6 +615,12 @@ header h1 {
     animation: fadeIn 0.3s ease-out;
 }
 
+#editModal,
+#editServiceModal,
+#settlementModal {
+    z-index: 1100;
+}
+
 .modal-content {
     background-color: white;
     margin: 5% auto;
