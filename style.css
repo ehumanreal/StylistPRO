@@ -1,0 +1,850 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5em;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.main-content {
+    padding: 30px;
+}
+
+/* Zakładki */
+.tabs-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 15px 25px;
+    font-size: 1em;
+    font-weight: 600;
+    color: #999;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.tab-button:hover {
+    color: #667eea;
+}
+
+.tab-button.active {
+    color: #667eea;
+}
+
+.tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #667eea;
+}
+
+.tabs-content {
+    width: 100%;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Sekcja zaległości */
+.arrears-section {
+    margin-top: 30px;
+}
+
+.arrears-list {
+    display: grid;
+    gap: 20px;
+}
+
+.arrears-card {
+    background: white;
+    border: 2px solid #f44336;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(244, 67, 54, 0.15);
+}
+
+.arrears-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f44336;
+}
+
+.arrears-info h3 {
+    color: #f44336;
+    font-size: 1.3em;
+    margin: 0 0 8px 0;
+}
+
+.arrears-phone {
+    color: #666;
+    font-size: 0.95em;
+    margin: 0;
+}
+
+.arrears-amount {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.amount-label {
+    color: #999;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.amount-value {
+    color: #f44336;
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+.arrears-details {
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #fff3f0;
+    border-radius: 5px;
+}
+
+.arrears-details p {
+    margin: 0;
+    color: #333;
+}
+
+.arrears-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.stats-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-label {
+    color: #666;
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    color: #667eea;
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+.stat-card-arrears {
+    background: rgba(231, 76, 60, 0.15);
+    border: 2px solid #E74C3C;
+}
+
+.stat-card-arrears .stat-label {
+    color: #C0392B !important;
+    font-weight: 700;
+}
+
+.stat-value-arrears {
+    color: #C0392B !important;
+}
+
+/* Sekcja formularza */
+.form-section {
+    background: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border-left: 5px solid #667eea;
+}
+
+.form-section h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Buttony */
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background: #d0d0d0;
+}
+
+.btn-success {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #45a049;
+}
+
+.btn-delete {
+    background: #f44336;
+    color: white;
+    padding: 8px 15px;
+    font-size: 0.85em;
+}
+
+.btn-delete:hover {
+    background: #da190b;
+}
+
+.btn-delete-service {
+    background: #ff9800;
+    color: white;
+    padding: 6px 12px;
+    font-size: 0.8em;
+    margin-top: 8px;
+}
+
+.btn-delete-service:hover {
+    background: #e68900;
+}
+
+.btn-edit-service {
+    background: #2196F3;
+    color: white;
+    padding: 6px 12px;
+    font-size: 0.8em;
+}
+
+.btn-edit-service:hover {
+    background: #0b7dda;
+}
+
+.btn-edit {
+    background: #2196F3;
+    color: white;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    margin-top: 15px;
+}
+
+.btn-edit:hover {
+    background: #0b7dda;
+}
+
+.btn-settlement {
+    background: #FF9800;
+    color: white;
+    padding: 8px 15px;
+    font-size: 0.85em;
+}
+
+.btn-settlement:hover {
+    background: #E68900;
+}
+
+/* Sekcja wyszukiwania */
+.search-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.search-controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    margin-bottom: 15px;
+}
+
+.search-controls input,
+.search-controls select {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: inherit;
+}
+
+.search-controls input {
+    flex: 1;
+    min-width: 250px;
+}
+
+.search-controls input:focus,
+.search-controls select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+}
+
+.export-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Sekcja klientów */
+.clients-section {
+    margin-top: 30px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.section-header h2 {
+    color: #333;
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.section-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.sort-select {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.95em;
+    transition: border-color 0.3s;
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.client-count {
+    background: #667eea;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+/* Lista klientów */
+.clients-list {
+    display: grid;
+    gap: 20px;
+}
+
+.client-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.client-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+}
+
+.client-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.client-header h3 {
+    color: #667eea;
+    font-size: 1.3em;
+    margin: 0;
+}
+
+.client-header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.client-info {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.client-info p {
+    margin: 8px 0;
+    font-size: 0.95em;
+}
+
+/* Sekcja usług */
+.services-section {
+    margin: 20px 0;
+}
+
+.services-section h4 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.service-item {
+    background: #f9f9f9;
+    padding: 15px;
+    border-left: 4px solid #764ba2;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.service-details {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+.service-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.load-more {
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.service-type {
+    background: #667eea;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.service-date {
+    color: #666;
+    font-weight: 500;
+}
+
+.service-price {
+    color: #4CAF50;
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.service-notes {
+    color: #666;
+    font-size: 0.9em;
+    margin: 8px 0;
+}
+
+.no-services {
+    color: #999;
+    font-style: italic;
+    padding: 15px;
+    text-align: center;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s ease-out;
+}
+
+.modal-content.modal-large {
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 1.5em;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: #999;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+#editForm .form-group {
+    margin-bottom: 20px;
+}
+
+#editForm .form-group label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+#editForm .form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+#editForm .form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+}
+
+/* Modal rozliczania */
+.settlement-info {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.settlement-info p {
+    margin: 10px 0;
+    font-size: 1em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.amount {
+    font-weight: 600;
+    color: #667eea;
+}
+
+.amount-due {
+    color: #f44336;
+    font-size: 1.2em;
+}
+
+/* Komunikaty */
+.empty-message {
+    text-align: center;
+    color: #999;
+    padding: 40px 20px;
+    font-size: 1.1em;
+    font-style: italic;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-controls {
+        flex-direction: column;
+    }
+
+    .search-controls input,
+    .search-controls select,
+    .search-controls button {
+        width: 100%;
+    }
+
+    .export-controls {
+        flex-direction: column;
+    }
+
+    .export-controls .btn {
+        width: 100%;
+    }
+
+    .client-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .client-header-buttons {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .client-header-buttons button {
+        width: 100%;
+    }
+
+    .client-header .btn-delete {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .service-details {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .client-count {
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 20% auto;
+    }
+
+    .arrears-header {
+        flex-direction: column;
+    }
+
+    .arrears-amount {
+        margin-top: 15px;
+        text-align: left;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animacje */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.client-card {
+    animation: slideIn 0.3s ease-out;
+}

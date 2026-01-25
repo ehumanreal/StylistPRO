@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baza Klientów - Salon Fryzjerski</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💇 Salon Fryzjerski - Baza Klientów</h1>
+        </header>
+
+        <div class="main-content">
+            <!-- Zakładki -->
+            <div class="tabs-container">
+                <button class="tab-button active" data-tab="klienci">Klienci</button>
+                <button class="tab-button" data-tab="zaleglosci">Zaległości</button>
+                <button class="tab-button" data-tab="statystyki">Statystyki</button>
+            </div>
+
+            <!-- Zawartość zakładek -->
+            <div class="tabs-content">
+                <!-- Zakładka Zaległości -->
+                <div id="zaleglosci" class="tab-content">
+                    <section class="arrears-section">
+                        <div class="section-header">
+                            <h2>Zaległości do rozliczenia</h2>
+                            <span id="arrearsCount" class="client-count">0 klientów</span>
+                        </div>
+                        <div id="arrearsList" class="arrears-list">
+                            <p class="empty-message">Brak zaległości! Wszyscy klienci rozliczeni. 🎉</p>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Zakładka Statystyki -->
+                <div id="statystyki" class="tab-content">
+                    <section class="stats-section">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">Klienci razem</div>
+                                <div class="stat-value" id="statTotalClients">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Całkowity przychód</div>
+                                <div class="stat-value" id="statTotalRevenue">0.00 zł</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Przychód 30 dni</div>
+                                <div class="stat-value" id="statRevenue30Days">0.00 zł</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Najpopularniejsza usługa</div>
+                                <div class="stat-value" id="statMostPopular">—</div>
+                            </div>
+                            <div class="stat-card stat-card-arrears">
+                                <div class="stat-label">Należności do zapłaty</div>
+                                <div class="stat-value stat-value-arrears" id="statTotalArrears">0.00 zł</div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Zakładka Klienci -->
+                <div id="klienci" class="tab-content active">
+            <section class="form-section">
+                <h2>Dodaj nowego klienta</h2>
+                <form id="newClientForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="newClientName">Imię i nazwisko:</label>
+                            <input type="text" id="newClientName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newClientPhone">Numer telefonu:</label>
+                            <input type="tel" id="newClientPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="newClientEmail">Email:</label>
+                            <input type="email" id="newClientEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="newClientNotes">Uwagi o kliencie:</label>
+                            <textarea id="newClientNotes" rows="3" placeholder="np. lubi krótkie włosy, alergia na kosmetyki..."></textarea>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">Dodaj nowego klienta</button>
+                        <button type="button" id="resetNewClientBtn" class="btn btn-secondary">Wyczyść</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Formularz dodawania nowej usługi -->
+            <section class="form-section">
+                <h2>Dodaj nową usługę dla klienta</h2>
+                <form id="clientForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="clientSelect">Wybierz klienta:</label>
+                            <select id="clientSelect" required>
+                                <option value="">-- Wybierz klienta --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="serviceType">Rodzaj usługi:</label>
+                            <select id="serviceType">
+                                <option value="">Wybierz usługę</option>
+                                <option value="strzyżenie">Strzyżenie</option>
+                                <option value="farbowanie">Farbowanie</option>
+                                <option value="czesanie">Czeszemy</option>
+                                <option value="golenie">Golenie</option>
+                                <option value="farba-strzyżenie">Farba + Strzyżenie</option>
+                                <option value="inne">Inne</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="serviceDate">Data usługi:</label>
+                            <input type="date" id="serviceDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="servicePrice">Cena (zł):</label>
+                            <input type="number" id="servicePrice" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Uwagi:</label>
+                            <textarea id="notes" rows="3" placeholder="Dodatkowe informacje o usłudze"></textarea>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">Dodaj usługę</button>
+                        <button type="button" id="resetBtn" class="btn btn-secondary">Wyczyść formularz</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Wyszukiwanie i filtrowanie -->
+            <section class="search-section">
+                <div class="search-controls">
+                    <input type="text" id="searchInput" placeholder="Szukaj klienta po imieniu, nazwisku lub telefonie...">
+                    <select id="filterService">
+                        <option value="">Wszystkie usługi</option>
+                        <option value="strzyżenie">Strzyżenie</option>
+                        <option value="farbowanie">Farbowanie</option>
+                        <option value="czesanie">Czeszemy</option>
+                        <option value="golenie">Golenie</option>
+                        <option value="farba-strzyżenie">Farba + Strzyżenie</option>
+                        <option value="inne">Inne</option>
+                    </select>
+                </div>
+                <div class="export-controls">
+                    <button type="button" id="exportBtn" class="btn btn-success">Eksportuj CSV</button>
+                    <button type="button" id="exportJsonBtn" class="btn btn-success">Backup danych</button>
+                    <button type="button" id="importJsonBtn" class="btn btn-success">Przywróć dane</button>
+                    <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                </div>
+            </section>
+
+            <!-- Lista klientów -->
+            <section class="clients-section">
+                <div class="section-header">
+                    <h2>Klienci w bazie</h2>
+                    <div class="section-controls">
+                        <select id="sortBy" class="sort-select">
+                            <option value="name">Sortuj: Imię (A-Z)</option>
+                            <option value="name-desc">Sortuj: Imię (Z-A)</option>
+                            <option value="lastService">Sortuj: Ostatnia wizyta</option>
+                            <option value="totalSpent">Sortuj: Przychód</option>
+                        </select>
+                        <span id="clientCount" class="client-count">0 klientów</span>
+                    </div>
+                </div>
+                <div id="clientsList" class="clients-list">
+                    <p class="empty-message">Baza klientów jest pusta. Dodaj pierwszego klienta!</p>
+                </div>
+            </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal do edycji danych klienta -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edytuj dane klienta</h2>
+                <button class="modal-close" onclick="closeEditModal()">&times;</button>
+            </div>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="editClientName">Imię i nazwisko:</label>
+                    <input type="text" id="editClientName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editClientPhone">Numer telefonu:</label>
+                    <input type="tel" id="editClientPhone">
+                </div>
+                <div class="form-group">
+                    <label for="editClientEmail">Email:</label>
+                    <input type="email" id="editClientEmail">
+                </div>
+                <div class="form-group">
+                    <label for="editClientNotes">Uwagi o kliencie:</label>
+                    <textarea id="editClientNotes" rows="3" placeholder="np. lubi krótkie włosy, alergia na kosmetyki..."></textarea>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Anuluj</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal do edycji usługi -->
+    <div id="editServiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edytuj usługę</h2>
+                <button class="modal-close" onclick="closeEditServiceModal()">&times;</button>
+            </div>
+            <form id="editServiceForm">
+                <div class="form-group">
+                    <label for="editServiceType">Rodzaj usługi:</label>
+                    <select id="editServiceType">
+                        <option value="">Wybierz usługę</option>
+                        <option value="strzyżenie">Strzyżenie</option>
+                        <option value="farbowanie">Farbowanie</option>
+                        <option value="czesanie">Czeszemy</option>
+                        <option value="golenie">Golenie</option>
+                        <option value="farba-strzyżenie">Farba + Strzyżenie</option>
+                        <option value="inne">Inne</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editServiceDate">Data usługi:</label>
+                    <input type="date" id="editServiceDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="editServicePrice">Cena (zł):</label>
+                    <input type="number" id="editServicePrice" min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="editServiceNotes">Uwagi:</label>
+                    <textarea id="editServiceNotes" rows="3" placeholder="Dodatkowe informacje o usłudze"></textarea>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditServiceModal()">Anuluj</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal do rozliczania klienta -->
+    <div id="settlementModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Rozliczenie klienta</h2>
+                <button class="modal-close" onclick="closeSettlementModal()">&times;</button>
+            </div>
+            <div class="settlement-info">
+                <p><strong>Klient:</strong> <span id="settlementClientName"></span></p>
+                <p><strong>Całkowity przychód:</strong> <span id="settlementTotal" class="amount">0.00 zł</span></p>
+                <p><strong>Zapłacono:</strong> <span id="settlementPaid" class="amount">0.00 zł</span></p>
+                <p><strong>Do zapłaty:</strong> <span id="settlementDue" class="amount amount-due">0.00 zł</span></p>
+            </div>
+            <form id="settlementForm">
+                <div class="form-group">
+                    <label for="settlementAmount">Kwota do zapłaty (zł):</label>
+                    <input type="number" id="settlementAmount" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="settlementDate">Data wpłaty:</label>
+                    <input type="date" id="settlementDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="settlementMethod">Sposób płatności:</label>
+                    <select id="settlementMethod">
+                        <option value="gotówka">Gotówka</option>
+                        <option value="karta">Karta</option>
+                        <option value="przelew">Przelew</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">Zapisz wpłatę</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeSettlementModal()">Anuluj</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal z pełną historią usług -->
+    <div id="allServicesModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Pełna historia usług - <span id="allServicesClientName"></span></h2>
+                <button class="modal-close" onclick="closeAllServicesModal()">&times;</button>
+            </div>
+            <div id="allServicesList" class="services-list">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
