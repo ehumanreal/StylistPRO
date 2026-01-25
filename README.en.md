@@ -114,4 +114,4 @@ Each client contains:
 
 ---
 
-Version 1.0 | StylistPRO
+Version 2.0 | StylistPRO
