@@ -10,7 +10,7 @@ Professional client management system for hair salons with Node.js backend.
 
 ### Steps
 
-1. **Open Command Prompt (CMD)** in the `salonfryzjerski` folder
+1. **Open Command Prompt (CMD)** in the folder where you have the application files, e.g. `StylistPRO`
 
 2. **Install dependencies:**
    ```
@@ -114,4 +114,6 @@ Each client contains:
 
 ---
 
-Version 1.0 | StylistPRO
+Version 2.0 | StylistPRO
+
+☕ Optional support: https://tipply.pl/@ehumanreal
