@@ -4,7 +4,7 @@
     "name": "Jarek Borsuk",
     "phone": "111222333",
     "email": "",
-    "notes": "gryzie",
+    "notes": "gryzie mocno",
     "services": [
       {
         "type": "strzyżenie",
@@ -17,6 +17,18 @@
         "date": "2026-01-25",
         "price": 60,
         "notes": ""
+      },
+      {
+        "type": "farbowanie",
+        "date": "2026-02-28",
+        "price": 100,
+        "notes": "zjadł krzesło"
+      },
+      {
+        "type": "farba-strzyżenie",
+        "date": "2026-01-31",
+        "price": 10,
+        "notes": ""
       }
     ],
     "payments": [
@@ -24,6 +36,21 @@
         "amount": 50,
         "date": "2026-01-25",
         "method": "gotówka"
+      },
+      {
+        "amount": 30,
+        "date": "2026-01-29",
+        "method": "gotówka"
+      },
+      {
+        "amount": 10,
+        "date": "2026-01-29",
+        "method": "karta"
+      },
+      {
+        "amount": 50,
+        "date": "2026-01-29",
+        "method": "przelew"
       }
     ],
     "createdAt": "2026-01-25T18:01:44.987Z"
